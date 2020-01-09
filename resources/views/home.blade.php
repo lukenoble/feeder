@@ -8,7 +8,7 @@
                 <div class="card-header">Dashboard</div>
 
                 <div class="card-body">
-
+                    @if(is_array($ordered_feed) && count($ordered_feed) > 0)
                     <table class="table">
                         <thead>
                         <tr>
@@ -27,6 +27,10 @@
                         @endforeach
                         </tbody>
                     </table>
+
+                    @else
+                        <p>It looks like there is nothing in your feed. Why don't you go to the <a href="{{route('feeds')}}">feeds page</a> to set one up.</p>
+                    @endif
                 </div>
             </div>
         </div>
