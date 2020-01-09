@@ -68,8 +68,13 @@ Class RSS implements FeedInterface {
      */
     public function validate(string $url): bool
     {
-        $content = file_get_contents($url);
-        try {new SimpleXmlElement($content); }
+        try {
+            $content = file_get_contents($url);
+            $rss = new SimpleXmlElement($content);
+            if (!isset($rss->channel->item)) {
+                return false;
+            }
+        }
         catch(Exception $e){ /* the data provided is not valid XML */ return false; }
 
         return true;

@@ -37,7 +37,7 @@ class HomeController extends Controller
         $formatted_feeds = [];
         foreach ($feeds as $feed) {
             switch($feed->feed_type->name){
-                case 'rss':
+                case 'RSS':
                     $feed = (new RSS())->processFeed($feed);
                     break;
             }
