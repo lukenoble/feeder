@@ -8,17 +8,39 @@ use SimpleXMLElement;
 
 Class RSS implements FeedInterface {
 
+    /**
+     * Gets the feed information and formats it into required format
+     *
+     * @param Feed $feed
+     *
+     * @return array
+     */
     public function processFeed(Feed $feed): array
     {
         $feed_data = $this->getFeed($feed->url);
         return $this->formatFeed($feed_data, $feed);
     }
 
+    /**
+     * Fetches the feed from the given URL
+     *
+     * @param string $url
+     *
+     * @return SimpleXMLElement
+     */
     public function getFeed(string $url): \SimpleXMLElement
     {
         return simplexml_load_file($url);
     }
 
+    /**
+     * Formats the feed into the standard Feeder format
+     *
+     * @param $feed_data
+     * @param Feed $feed
+     *
+     * @return array
+     */
     public function formatFeed($feed_data, Feed $feed): array
     {
         $return_data = [];
@@ -37,7 +59,14 @@ Class RSS implements FeedInterface {
         return $return_data;
     }
 
-    public function validate(string $url)
+    /**
+     * Validate whether the URL provided returns an RSS feed
+     *
+     * @param string $url
+     *
+     * @return bool
+     */
+    public function validate(string $url): bool
     {
         $content = file_get_contents($url);
         try {new SimpleXmlElement($content); }
