@@ -7,7 +7,7 @@ class FeedTypeSeeder extends Seeder
 {
 
     private const FEED_TYPES = [
-        ['name' => 'rss']
+        ['name' => 'RSS']
     ];
     /**
      * Run the database seeds.

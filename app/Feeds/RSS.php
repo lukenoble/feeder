@@ -3,6 +3,8 @@
 namespace App\Feeds;
 
 use App\Feed;
+use Exception;
+use SimpleXMLElement;
 
 Class RSS implements FeedInterface {
 
@@ -33,5 +35,14 @@ Class RSS implements FeedInterface {
         }
 
         return $return_data;
+    }
+
+    public function validate(string $url)
+    {
+        $content = file_get_contents($url);
+        try {new SimpleXmlElement($content); }
+        catch(Exception $e){ /* the data provided is not valid XML */ return false; }
+
+        return true;
     }
 }

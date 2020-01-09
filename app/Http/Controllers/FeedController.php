@@ -84,11 +84,16 @@ class FeedController extends Controller
     public function save(Request $request)
     {
         $request->validate([
-            'url' => 'required'
+            'url' => 'required|url'
         ]);
         $feed = new Feed();
         $feed->url = $request->input('url');
-        $feed_type = FeedType::where('name', $request->input('feed_type'))->select('id')->first();
+        $feed_type = FeedType::where('name', $request->input('feed_type'))->first();
+        $feed_type_name = 'App\\Feeds\\' . $feed_type->name;
+        if ((new $feed_type_name())->validate($feed->url) === false) {
+            $request->session()->flash('error', sprintf('The url provided is not a valid %s feed', $feed_type->name));
+            return redirect()->back();
+        }
         $feed->feed_type_id = $feed_type->id;
         $feed->user_id = Auth::id();
         $feed->save();
